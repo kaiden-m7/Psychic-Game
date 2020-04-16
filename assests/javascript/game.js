@@ -7,9 +7,9 @@ $(document).ready(function) {
     let userAnswers = [];
 
     const letterToBeGuessed = computerOptions[Math.floor(Math.random() * computerOptions.length)];
-
+    let userGuess = event.key
     document.onkeydown = function(event) {
-        
+        if (userGuess === letterToBeGuessed)
     }
 
 //avoid answering the same letter twice
@@ -20,7 +20,7 @@ for (let i = 0; i < userAnswers.length; i++) { //for every previous answer
         break; //exit loop
     }
 }
-if (!isDuplicate) { //different than previous
+    if (!isDuplicate) { //different than previous
     userAnswers[userAnswers.length] = currentAnswer;
     
 }
