@@ -17,23 +17,24 @@ $(document).ready(function) {
    
     document.onkeydown = function(event) { //once key is 'pressed' it becomes players answer
     numGuesses--;
-    var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
+    let userGuess = String.fromCharCode(event.keyCode).toLowerCase();
 
     userAnswers.push(userGuess);
         updateGuessesLeft();
         updateGuessesSoFar();
 
         if (guessesLeft > 0){ //if users guess matches computer guess 
-            if (userGuess == letterToGuess){
+            if (userGuess == letterChoices){
                 wins++;
                 document.getElementById('#totalWins').innerHTML = "Wins: " + wins;
     
             }
-        }else if(guessesLeft == 0){ //if users guess does not match computer guess
+        }else if(numGuesses == 0){ //if users guess does not match computer guess
             losses++;
             document.getElementById('#losses').innerHTML = "Losses: " + losses;
         }
     };
+
     let updateGuessesLeft = function() { //getting userAnswers from user 
     document.getElementById('#remainingGuesses').innerHTML = "Guesses Remaining: " + numGuesses;
   };
