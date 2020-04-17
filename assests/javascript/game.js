@@ -6,42 +6,32 @@ $(document).ready(function) {
     let lossesCounter = 0; //tracks loses
     let numGuesses = 10; //numbers of guesses left
     let userAnswers = []; //letters chosen by player
-    let counter = 0; //counting numbers of wins/loses
+    
 
     
     const computerGuess = letterChoices[Math.floor(Math.random() * letterChoices.length)]; //computer randmonly icking a letter
     
-    let userGuess = event.key //indicating user is using letters on keyboard
-
    
-   
-    document.onkeydown = function(event) { //once key is 'pressed' it becomes players answer
-    numGuesses--;
-    let userGuess = String.fromCharCode(event.keyCode).toLowerCase();
+    document.onkeydown = function(event) {
+        var userGuess = event.key;
 
-    userAnswers.push(userGuess);
-        updateGuessesLeft();
-        updateGuessesSoFar();
+        if (letterChoices.indexOf(userGuess) > -1){
 
-        if (guessesLeft > 0){ //if users guess matches computer guess 
-            if (userGuess == letterChoices){
-                wins++;
-                document.getElementById('#totalWins').innerHTML = "Wins: " + wins;
-    
-            }
-        }else if(numGuesses == 0){ //if users guess does not match computer guess
-            losses++;
-            document.getElementById('#losses').innerHTML = "Losses: " + losses;
-        }
-    };
+	        if (guessesLeft !== 0){
+			    if ((userGuess !== computerGuess) && (guessesLeft > 0)){
+			    	userAnswers.push(userGuess);
+                    numGuesses--;
+                    lossesCounter++;
+			    	document.getElementById("remainingGuesses").innerHTML = "Guesses Remaining: " + guessesLeft + "</p>";
+			    	document.getElementById("guessedLetters").innerHTML = "What you have guessed so far: " + lettersGuessed.join(', ');
 
-    let updateGuessesLeft = function() { //getting userAnswers from user 
-    document.getElementById('#remainingGuesses').innerHTML = "Guesses Remaining: " + numGuesses;
-  };
-
-    let updateGuessesSoFar = function() { //showing users answers and seperateing by a comma with a space
-    document.getElementById('#guessedLetters').innerHTML = "What you have guessed so far: " + userAnswers.join(', ');
-  };
+			    } else if (userGuess === computerGuess){
+			    	winsCounter ++;
+			    	numGuesses = 10;
+			    	document.getElementById("wins").innerHTML = "<p>Wins: " + winCounter + "</p>";
+			    	document.getElementById("remainingGuess").innerHTML = "<p>Guesses Left : 10</p>";
+			    	document.getElementById("guessedLetters").innerHTML = "<p>Your Guesses so far: </p>";
+			    }
 
     let isDuplicate = false; //avoid answering the same letter twice
     for (let i = 0; i < userAnswers.length; i++) { //for every previous answer
