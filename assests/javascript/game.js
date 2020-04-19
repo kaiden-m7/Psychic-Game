@@ -1,4 +1,4 @@
-$(document).ready(function) {
+$document.ready(function(){ 
 
     let letterChoices = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
 
@@ -6,51 +6,63 @@ $(document).ready(function) {
     let lossesCounter = 0; //tracks loses
     let numGuesses = 10; //numbers of guesses left
     let userAnswers = []; //letters chosen by player
+    let letterPressed = false; //did the player press a key
+    let isDuplicate = false; //did player already choose that letter
     
 
-    
-    const computerGuess = letterChoices[Math.floor(Math.random() * letterChoices.length)]; //computer randmonly icking a letter
-    
-   
-    document.onkeydown = function(event) {
-        var userGuess = event.key;
 
-        if (letterChoices.indexOf(userGuess) > -1){
+        function isLetter(event.keypress) { //allow player to start on keypress 
+            let userAnswers = [];
+            letterPressed = true;
+            document.getElementById("#totalWins").innerHTML = 'Wins: ';
+            document.getElementById("#losses").innerHTML = 'Losses: ';
+            let computerGuess = letterChoices[Math.floor(Math.random() * letterChoices.length)]; //computer randmonly picking a letter
+            console.log("Select any letter key to play.");
+        
+            document.onkeydown = function(event) {
+            var userGuess = event.key;
 
-	        if (guessesLeft !== 0){
-			    if ((userGuess !== computerGuess) && (guessesLeft > 0)){
+            if (letterChoices.indexOf(userGuess) > -1){ 
+
+                    if (guessesLeft !== 0){ //if letter chosen is not computers guess 
+                    if ((userGuess !== computerGuess) && (numGuesses > 0)){
 			    	userAnswers.push(userGuess);
                     numGuesses--;
                     lossesCounter++;
-			    	document.getElementById("remainingGuesses").innerHTML = "Guesses Remaining: " + guessesLeft + "</p>";
-			    	document.getElementById("guessedLetters").innerHTML = "What you have guessed so far: " + lettersGuessed.join(', ');
-
-			    } else if (userGuess === computerGuess){
+			    	document.getElementById("remainingGuesses").innerHTML = "Guesses Remaining: " + guessesLeft;
+                    document.getElementById("guessedLetters").innerHTML = "What you have guessed so far: " + lettersGuessed.join(', ');
+                    
+                    } else if (userGuess === computerGuess){ //if letter chosen is computer guess
 			    	winsCounter ++;
 			    	numGuesses = 10;
-			    	document.getElementById("wins").innerHTML = "<p>Wins: " + winCounter + "</p>";
-			    	document.getElementById("remainingGuess").innerHTML = "<p>Guesses Left : 10</p>";
-			    	document.getElementById("guessedLetters").innerHTML = "<p>Your Guesses so far: </p>";
-			    }
+			    	document.getElementById("wins").innerHTML = "Wins: " + winCounter;
+			    	document.getElementById("remainingGuess").innerHTML = "Guesses Left : 10";
+                    document.getElementById("guessedLetters").innerHTML = "Your Guesses so far: ";
+                    reSet ()
+			        }
 
-    let isDuplicate = false; //avoid answering the same letter twice
-    for (let i = 0; i < userAnswers.length; i++) { //for every previous answer
-    if (currentAnswer == userAnswers[i]) { //check if the current answer is a previous one
-        isDuplicate = true;
-        break; //exit loop
-        }
+                
+                    for (let i = 0; i < userAnswers.length; i++) { //for every previous answer
+                    if (currentAnswer == userAnswers[i]) { //check if the current answer is a previous one
+                    isDuplicate = true;
+                    alert("Try another letter you haven'/t guessed");
+                    break; //exit loop
+                        }
+                    }
+                }
+            }   
+
     }
-    if (!isDuplicate) { //different than previous
-    userAnswers[userAnswers.length] = currentAnswer;
-    
-    }
-
-
-
-
-
-
-
-
-
 }
+
+     function reSet () {
+    numGuesses = 10;
+    userAnswers = [];
+    computerGuess =  letterChoices[Math.floor(Math.random() * letterChoices.length)];
+    }   
+
+});
+
+
+
+
